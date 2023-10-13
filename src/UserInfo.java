@@ -16,6 +16,10 @@ public class UserInfo extends FindingValue {
         ArrayList<String> data = new ArrayList<String>(Arrays.asList(input.split(" ")));
 
         switch (InputValidator.check(data)) {
+            //InputValidator возвращает код ошибки 1, если введённая пользователем строка пустая
+            // 2, если введённых данных меньше, чем требуется
+            // 3, если введённых данных больше, чем требуется
+            // 4, если колличество введённых данных корректно
             case  (1):
                 System.out.println("Пустые строки вводить нельзя!");
                 break;
@@ -44,6 +48,7 @@ public class UserInfo extends FindingValue {
 
     }
 
+    //Переопределение метода toString для записи в файл
     @Override
     public String toString() {
         return "<" + surname + ">" +
@@ -53,7 +58,6 @@ public class UserInfo extends FindingValue {
                 "<" + phoneNumber + ">" +
                 "<" + gender + ">";
     }
-
 
 
     public String getSurname() {
