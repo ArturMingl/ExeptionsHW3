@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,12 +12,12 @@ public class UserInputValidator {
     private String birth_date;
     private Long phone_number;
     private String gender;
-    private final List<Character> gender_lst = new ArrayList<>(){{
-        add('f');
-        add('m');
+    private final List<String> gender_lst = new ArrayList<>(){{
+        add("f");
+        add("m");
     }};
 
-    public void add_value (String input) throws RuntimeException {
+    public void addValue (String input) throws RuntimeException {
         if(input.isEmpty()){
             throw new RuntimeException("Пустая строка!");
         }
@@ -33,13 +35,30 @@ public class UserInputValidator {
 
     }
 
-    private boolean is_name(String name){
+    private boolean isName(String name){
         return name != null && name.matches("^[a-zA-Z0-9]*$");
     }
 
-    private void get_gender(String[] data){
+    private void addGender(String[] data){
         for (int i = 0; i < data.length ; i++) {
+            if (gender_lst.contains(data[i])) {
+                this.gender = data[i];
+            }else {
+                System.out.println("Вы не верно ввели гендер");
+            }
+        }
+    }
+
+    private void addUserInfo(String[] data) throws IllegalArgumentException {
+        for (int i = 0; i < data.length; i++) {
+            if (data[i].matches("\\d{2}\\.\\d{2}\\.\\d{4}")) this.birth_date = data[i];
+            else throw new IllegalArgumentException("Неверный формат даты рождения. Ожидается: dd.mm.yyyy");
+
+            if (data[i].matches("\\d+")) this.phone_number = Long.parseLong(data[i]);
+            else throw new IllegalArgumentException("Неверный формат номера телефона");
+
             if (gender_lst.contains(data[i])) this.gender = data[i];
+            else System.out.println("Не верно введён гендер. Ожидается: " + gender_lst);
         }
     }
 
